@@ -7,10 +7,18 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\Product;
 use App\Models\Customer;
+use App\Models\User;
+use Laravel\Sanctum\Sanctum;
 
 class PosSystemTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        Sanctum::actingAs(User::factory()->create(), ['*']);
+    }
 
     public function test_can_create_product()
     {
@@ -152,6 +160,9 @@ class PosSystemTest extends TestCase
 
     public function test_can_register_user()
     {
+        // logout for registration test to ensure it works unauthenticated
+        auth('sanctum')->logout();
+
         $response = $this->postJson('/api/register', [
             'name' => 'Admin User',
             'email' => 'admin@example.com',

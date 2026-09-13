@@ -42,14 +42,16 @@ class InvoiceController extends Controller
             $totalCost = 0;
 
             foreach ($validated['items'] as $itemData) {
+                $product = Product::find($itemData['product_id']);
+                $itemData['cost_price'] = $product->buying_price;
+
                 $item = new InvoiceItem($itemData);
                 $invoice->items()->save($item);
 
                 $lineTotal = $itemData['quantity'] * $itemData['price'];
                 $total += $lineTotal;
 
-                $product = Product::find($itemData['product_id']);
-                $totalCost += ($product->buying_price * $itemData['quantity']);
+                $totalCost += ($itemData['cost_price'] * $itemData['quantity']);
             }
 
             $qrCodeData = url('/api/invoices/' . $invoice->id);
@@ -107,14 +109,16 @@ class InvoiceController extends Controller
             $totalCost = 0;
 
             foreach ($validated['items'] as $itemData) {
+                $product = Product::find($itemData['product_id']);
+                $itemData['cost_price'] = $product->buying_price;
+
                 $item = new InvoiceItem($itemData);
                 $invoice->items()->save($item);
 
                 $lineTotal = $itemData['quantity'] * $itemData['price'];
                 $total += $lineTotal;
 
-                $product = Product::find($itemData['product_id']);
-                $totalCost += ($product->buying_price * $itemData['quantity']);
+                $totalCost += ($itemData['cost_price'] * $itemData['quantity']);
             }
 
             // Re-generate QR Code in case URL needs to hold updated data (keeping it simple here)

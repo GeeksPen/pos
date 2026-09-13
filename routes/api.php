@@ -4,21 +4,30 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\CustomerController;
+use App\Http\Controllers\API\InvoiceController;
+use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\SubscriptionController;
+use App\Http\Controllers\API\SettingController;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+Route::post('register', [AuthController::class, 'register']);
+Route::post('login', [AuthController::class, 'login']);
 
-Route::apiResource('products', ProductController::class);
-Route::apiResource('customers', CustomerController::class);
-Route::get('customers/{customer}/wallet', [CustomerController::class, 'walletHistory']);
-Route::apiResource('invoices', App\Http\Controllers\API\InvoiceController::class);
-Route::get('invoices/{invoice}/pdf', [App\Http\Controllers\API\InvoiceController::class, 'exportPdf']);
-Route::get('invoices/{invoice}/qrcode', [App\Http\Controllers\API\InvoiceController::class, 'generateQrCode']);
-Route::post('register', [App\Http\Controllers\API\AuthController::class, 'register']);
-Route::post('login', [App\Http\Controllers\API\AuthController::class, 'login']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
 
-Route::apiResource('subscriptions', App\Http\Controllers\API\SubscriptionController::class);
+    Route::apiResource('products', ProductController::class);
 
-Route::get('settings', [App\Http\Controllers\API\SettingController::class, 'index']);
-Route::post('settings', [App\Http\Controllers\API\SettingController::class, 'update']);
+    Route::apiResource('customers', CustomerController::class);
+    Route::get('customers/{customer}/wallet', [CustomerController::class, 'walletHistory']);
+
+    Route::apiResource('invoices', InvoiceController::class);
+    Route::get('invoices/{invoice}/pdf', [InvoiceController::class, 'exportPdf']);
+    Route::get('invoices/{invoice}/qrcode', [InvoiceController::class, 'generateQrCode']);
+
+    Route::apiResource('subscriptions', SubscriptionController::class);
+
+    Route::get('settings', [SettingController::class, 'index']);
+    Route::post('settings', [SettingController::class, 'update']);
+});
