@@ -22,7 +22,7 @@ export default function LoginScreen() {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>POS Mobile Login</Text>
+            <Text style={styles.title}>SevenText Login</Text>
             <TextInput
                 style={styles.input}
                 placeholder="Email"

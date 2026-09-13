@@ -11,7 +11,7 @@ function createWindow() {
     });
 
     win.setMenuBarVisibility(false);
-    win.loadURL('http://localhost');
+    win.loadURL('https://seventext.co.uk');
 }
 
 app.whenReady().then(createWindow);

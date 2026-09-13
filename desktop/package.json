@@ -1,5 +1,5 @@
 {
-  "name": "desktop",
+  "name": "seventext-desktop",
   "version": "1.0.0",
   "description": "",
   "main": "main.js",
@@ -15,7 +15,8 @@
     "electron-builder": "^25.1.0"
   },
   "build": {
-    "appId": "com.pos.desktop",
+    "appId": "uk.co.seventext.desktop",
+    "productName": "SevenText",
     "win": {
       "target": "nsis"
     }
