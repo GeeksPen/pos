@@ -7,6 +7,7 @@ export default function POSPage() {
     const [customers, setCustomers] = useState<any[]>([]);
     const [selectedCustomer, setSelectedCustomer] = useState('');
     const [cart, setCart] = useState<any[]>([]);
+    const [invoiceType, setInvoiceType] = useState('sale');
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -33,7 +34,7 @@ export default function POSPage() {
         try {
             await api.post('/invoices', {
                 customer_id: selectedCustomer || null,
-                type: 'sale',
+                type: invoiceType,
                 items: cart.map(i => ({ product_id: i.product.id, quantity: i.quantity, price: i.product.selling_price }))
             });
             alert('Invoice submitted');
@@ -60,6 +61,11 @@ export default function POSPage() {
                 <select value={selectedCustomer} onChange={e => setSelectedCustomer(e.target.value)} className="w-full border p-2 mb-2">
                     <option value="">Walk-in</option>
                     {customers.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                </select>
+                <select value={invoiceType} onChange={e => setInvoiceType(e.target.value)} className="w-full border p-2 mb-4">
+                    <option value="sale">Sale</option>
+                    <option value="return">Return</option>
+                    <option value="purchase">Purchase</option>
                 </select>
                 <ul>
                     {cart.map((c, i) => <li key={i}>{c.product.name} x{c.quantity}</li>)}

@@ -174,8 +174,8 @@ class InvoiceController extends Controller
     public function generateQrCode(Invoice $invoice)
     {
         $url = url('/api/invoices/' . $invoice->id);
-        $qrCode = QrCode::format('png')->size(300)->generate($url);
-        return response($qrCode)->header('Content-type', 'image/png');
+        $qrCode = QrCode::format('svg')->size(300)->generate($url);
+        return response($qrCode)->header('Content-type', 'image/svg+xml');
     }
 
     private function applyWalletTransaction(Invoice $invoice)

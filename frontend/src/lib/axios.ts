@@ -1,7 +1,8 @@
 import axios from 'axios';
 
+// Fallback to relative /api if env is not set (useful for Docker Nginx setup)
 const api = axios.create({
-    baseURL: 'http://localhost:8000/api',
+    baseURL: process.env.NEXT_PUBLIC_API_URL || '/api',
     headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'

@@ -62,7 +62,7 @@ export default function ProductsPage() {
                         {products.map(p => (
                             <li key={p.id} className="flex items-center gap-4 py-2 border-b">
                                 {p.image_path ? (
-                                    <img src={`http://localhost:8000/storage/${p.image_path}`} alt={p.name} className="w-12 h-12 object-cover rounded" />
+                                    <img src={`${process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || ''}/storage/${p.image_path}`} alt={p.name} className="w-12 h-12 object-cover rounded" />
                                 ) : (
                                     <div className="w-12 h-12 bg-gray-200 rounded"></div>
                                 )}

@@ -57,7 +57,7 @@ export default function CustomersPage() {
                         {customers.map(c => (
                             <li key={c.id} className="flex items-center gap-4 py-2 border-b">
                                 {c.image_path ? (
-                                    <img src={`http://localhost:8000/storage/${c.image_path}`} alt={c.name} className="w-12 h-12 object-cover rounded-full" />
+                                    <img src={`${process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || ''}/storage/${c.image_path}`} alt={c.name} className="w-12 h-12 object-cover rounded-full" />
                                 ) : (
                                     <div className="w-12 h-12 bg-gray-200 rounded-full"></div>
                                 )}
