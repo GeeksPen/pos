@@ -19,9 +19,15 @@ class ProductController extends Controller
             'name' => 'required|string|max:255',
             'buying_price' => 'required|numeric|min:0',
             'selling_price' => 'required|numeric|min:0',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $product = Product::create($validated);
+        $data = $validated;
+        if ($request->hasFile('image')) {
+            $data['image_path'] = $request->file('image')->store('images/products', 'public');
+        }
+
+        $product = Product::create($data);
         return response()->json($product, 201);
     }
 

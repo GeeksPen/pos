@@ -18,9 +18,15 @@ class CustomerController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'balance' => 'numeric',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $customer = Customer::create($validated);
+        $data = $validated;
+        if ($request->hasFile('image')) {
+            $data['image_path'] = $request->file('image')->store('images/customers', 'public');
+        }
+
+        $customer = Customer::create($data);
         return response()->json($customer, 201);
     }
 

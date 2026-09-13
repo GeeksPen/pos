@@ -8,6 +8,7 @@ use App\Http\Controllers\API\InvoiceController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\SubscriptionController;
 use App\Http\Controllers\API\SettingController;
+use App\Http\Controllers\API\AnalyticsController;
 
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
@@ -30,4 +31,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('settings', [SettingController::class, 'index']);
     Route::post('settings', [SettingController::class, 'update']);
+
+    Route::get('analytics', [AnalyticsController::class, 'index']);
 });

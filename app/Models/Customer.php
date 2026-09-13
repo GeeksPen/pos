@@ -12,6 +12,7 @@ class Customer extends Model
     protected $fillable = [
         'name',
         'balance',
+        'image_path',
     ];
 
     public function walletTransactions()
