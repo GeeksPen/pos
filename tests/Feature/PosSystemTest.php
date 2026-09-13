@@ -17,7 +17,7 @@ class PosSystemTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        Sanctum::actingAs(User::factory()->create(), ['*']);
+        Sanctum::actingAs(User::factory()->create(['role' => 'manager']), ['*']);
     }
 
     public function test_can_create_product()
@@ -68,7 +68,6 @@ class PosSystemTest extends TestCase
                 [
                     'product_id' => $product->id,
                     'quantity' => 2,
-                    'price' => 500
                 ]
             ]
         ]);
@@ -118,7 +117,6 @@ class PosSystemTest extends TestCase
                 [
                     'product_id' => $product->id,
                     'quantity' => 1,
-                    'price' => 300
                 ]
             ]
         ]);
@@ -139,7 +137,6 @@ class PosSystemTest extends TestCase
                 [
                     'product_id' => $product->id,
                     'quantity' => 2,
-                    'price' => 300
                 ]
             ]
         ]);

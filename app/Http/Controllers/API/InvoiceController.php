@@ -28,7 +28,6 @@ class InvoiceController extends Controller
             'items' => 'required|array',
             'items.*.product_id' => 'required|exists:products,id',
             'items.*.quantity' => 'required|integer|min:1',
-            'items.*.price' => 'required|numeric|min:0',
         ]);
 
         return DB::transaction(function () use ($validated) {
@@ -44,6 +43,7 @@ class InvoiceController extends Controller
             foreach ($validated['items'] as $itemData) {
                 $product = Product::find($itemData['product_id']);
                 $itemData['cost_price'] = $product->buying_price;
+                $itemData['price'] = $product->selling_price; // Authoritative price from DB
 
                 $item = new InvoiceItem($itemData);
                 $invoice->items()->save($item);
@@ -89,7 +89,6 @@ class InvoiceController extends Controller
             'items' => 'required|array',
             'items.*.product_id' => 'required|exists:products,id',
             'items.*.quantity' => 'required|integer|min:1',
-            'items.*.price' => 'required|numeric|min:0',
         ]);
 
         return DB::transaction(function () use ($validated, $invoice) {
@@ -111,6 +110,7 @@ class InvoiceController extends Controller
             foreach ($validated['items'] as $itemData) {
                 $product = Product::find($itemData['product_id']);
                 $itemData['cost_price'] = $product->buying_price;
+                $itemData['price'] = $product->selling_price; // Authoritative price from DB
 
                 $item = new InvoiceItem($itemData);
                 $invoice->items()->save($item);
@@ -159,11 +159,11 @@ class InvoiceController extends Controller
         $invoice->load('items.product', 'customer');
 
         $html = "<h1>Invoice #{$invoice->id}</h1>";
-        $html .= "<p>Type: {$invoice->type}</p>";
-        $html .= "<p>Total: {$invoice->total}</p>";
+        $html .= "<p>Type: " . e($invoice->type) . "</p>";
+        $html .= "<p>Total: " . e($invoice->total) . "</p>";
         $html .= "<p>Items:</p><ul>";
         foreach ($invoice->items as $item) {
-            $html .= "<li>{$item->product->name} (x{$item->quantity}) - {$item->price}</li>";
+            $html .= "<li>" . e($item->product->name) . " (x" . e($item->quantity) . ") - " . e($item->price) . "</li>";
         }
         $html .= "</ul>";
 

@@ -27,3 +27,4 @@ Homestead.yaml
 Thumbs.db
 frontend/node_modules
 frontend/.next
+mobile/node_modules
